@@ -102,13 +102,12 @@
   render();
 })();
 
-// pinned bar: thin line, back-to-top button, and the MH logo that travels into the bar
+// pinned bar: thin line, one-row fit, and the MH logo that travels into the bar
 (function () {
   const bar = document.querySelector('.filters');
   if (!bar || getComputedStyle(bar).position !== 'sticky') return;
   const sentinel = document.createElement('div');
   bar.before(sentinel);
-  const top = bar.querySelector('.to-top');
   const slot = bar.querySelector('.bar-slot');
   const logo = document.querySelector('.site-header .logo');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -142,22 +141,16 @@
   new IntersectionObserver(([e]) => {
     const stuck = !e.isIntersecting && e.boundingClientRect.top < 0;
     bar.classList.toggle('is-stuck', stuck);
-    if (top) top.hidden = !stuck;
     fitPinned();
   }).observe(sentinel);
   window.addEventListener('resize', () => {
     baseMargin = null;
     if (bar.classList.contains('is-stuck')) {
       bar.classList.remove('is-stuck', 'is-compact'); bar.style.marginBottom = '';
-      if (top) top.hidden = true;
       looseHeight = bar.offsetHeight;
-      bar.classList.add('is-stuck'); if (top) top.hidden = false;
+      bar.classList.add('is-stuck');
     }
     fitPinned();
-  });
-  if (top) top.addEventListener('click', () => {
-    window.scrollTo({ top: 0 });
-    logo?.focus({ preventScroll: true });
   });
 
   if (!slot || !logo) return;
@@ -248,7 +241,14 @@
   }
 
   // the travelling and landed MH take you back to the top
-  const toTop = (e) => { e.preventDefault(); window.scrollTo({ top: 0 }); logo.focus({ preventScroll: true }); };
+  // (the header logo is hidden until the page is back at the top, so focus it once the scroll ends)
+  const toTop = (e) => {
+    e.preventDefault();
+    const focusLogo = () => setTimeout(() => logo.focus({ preventScroll: true }), 50);
+    if ('onscrollend' in window) window.addEventListener('scrollend', focusLogo, { once: true });
+    else setTimeout(focusLogo, 700);
+    window.scrollTo({ top: 0 });
+  };
   flyer.addEventListener('click', toTop);
   slot.addEventListener('click', toTop);
 

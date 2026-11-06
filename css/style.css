@@ -409,16 +409,6 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
   .bar-slot { font-size: 3rem; height: 44px; line-height: 44px; margin-right: calc((var(--k, 0) - 1) * 1.2rem); }
 }
 
-/* back-to-top: a small round button at the right end of the bar once it is pinned */
-.to-top {
-  flex: none; margin-left: auto;
-  display: inline-grid; place-items: center;
-  width: calc(2.6rem + 2px); height: calc(2.6rem + 2px);
-  font: inherit; font-size: 1.5rem; line-height: 1; color: var(--ink);
-  background: none; border: 1px solid #111; border-radius: 999rem; padding: 0; cursor: pointer;
-}
-.to-top:hover { background: #111; color: #fff; }
-.to-top[hidden] { display: none; }
 
 /* tags inside projects act as filter shortcuts */
 .project .tag[role="button"] { cursor: pointer; transition: background 0.15s ease, color 0.15s ease; }
@@ -464,7 +454,6 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
   .filter-count:not(:empty) { display: inline-grid; place-items: center; min-width: 2.2rem; height: 2.2rem; padding: 0 0.6rem; border-radius: 999rem; background: #111; color: #fff; font-size: 1.3rem; font-variant-numeric: tabular-nums; }
   .filter-toggle[aria-expanded="true"] .filter-count:not(:empty) { background: #fff; color: #111; }
   .filter-status { order: 2; min-width: 0; margin-left: auto; font-size: 1.5rem; }
-  .to-top { order: 2; margin-left: 0.4rem; width: 44px; height: 44px; font-size: 1.8rem; }
   .filter-toggle { order: 1; }
   .filter-list { order: 3; flex-basis: 100%; display: none; gap: 0.8rem; padding-bottom: 0.4rem; }
   .filters.is-open .filter-list { display: flex; }
