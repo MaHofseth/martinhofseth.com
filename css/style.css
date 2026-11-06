@@ -19,7 +19,7 @@
 /* Scaling (same as the Cargo site):
    desktop: 1rem = 1.44% of window height, capped at 1.53% of window width
    phone (≤768px wide): 1rem = 2.44% of width, capped at 1.45% of height */
-html { font-size: min(1.44vh, 1.53vw); scroll-behavior: smooth; }
+html { font-size: min(1.44vh, 1.53vw); scroll-behavior: smooth; overflow-anchor: none; }
 @media (max-width: 768px) {
   html { font-size: min(2.44vw, 1.45svh); }
   :root { --p: 0.6; }
@@ -268,6 +268,9 @@ a:hover > .arrow { transform: translateX(0.15em); }
 }
 .g1 { margin-top: 1rem; } .g2 { margin-top: 2rem; } .g6 { margin-top: 6rem; }
 
+/* tall photos: as big as the column allows, but never taller than the screen */
+img.fit-screen { width: auto; max-width: 100%; max-height: calc(100svh - 4rem); }
+@media (max-width: 768px) { img.fit-screen { width: 100%; max-height: none; } }
 .text-col { font-size: 1.8rem; line-height: 1.4; color: var(--muted); }
 .text-col b { color: #000; font-weight: 600; }
 .text-col p + p { margin-top: 1em; }
@@ -397,6 +400,9 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
   white-space: nowrap; visibility: hidden;
 }
 .filters { column-gap: 1.6rem; }
+/* before it pins, the bar keeps the height it will need once the MH has arrived,
+   so the glide never changes the page height (that made the page bounce) */
+.filters:not(.is-stuck) { min-height: var(--loose-h, auto); }
 .filter-status { min-width: max(0px, calc(7.2em - var(--k, 0) * (var(--slot-w, 0px) + 1.6rem))); }
 .logo-flyer {
   position: fixed; z-index: 6; margin: 0; display: inline-block; width: auto;

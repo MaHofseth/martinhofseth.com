@@ -166,8 +166,31 @@
   flyer.removeAttribute('href');
   document.body.appendChild(flyer);
 
+  // the bar's tallest unpinned height over the whole glide (the arriving MH can push a tag
+  // onto another row); reserving it keeps the page height constant while scrolling
+  function reserveHeight() {
+    const stuck = bar.classList.contains('is-stuck');
+    const compact = bar.classList.contains('is-compact');
+    const mb = bar.style.marginBottom, k = bar.style.getPropertyValue('--k');
+    bar.classList.remove('is-stuck', 'is-compact');
+    bar.style.marginBottom = '';
+    bar.style.removeProperty('--loose-h');
+    bar.style.setProperty('--k', 0);
+    const h0 = bar.offsetHeight;
+    bar.style.setProperty('--k', 1);
+    const h1 = bar.offsetHeight;
+    bar.style.setProperty('--loose-h', `${Math.max(h0, h1)}px`);
+    looseHeight = Math.max(h0, h1);
+    bar.style.setProperty('--k', k);
+    bar.style.marginBottom = mb;
+    if (stuck) bar.classList.add('is-stuck');
+    if (compact) bar.classList.add('is-compact');
+  }
+
   let m = null;
   function measure() {
+    reserveHeight();
+    fitPinned();
     const r = logo.getBoundingClientRect();
     const text = document.createRange();
     text.selectNodeContents(logo);
