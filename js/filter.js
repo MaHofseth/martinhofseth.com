@@ -162,26 +162,41 @@
 
   if (!slot || !logo) return;
 
-  // measured with the logo in its normal place
+  // The travelling MH is a fixed-position copy of the logo, so the page scrolling can never
+  // drag it out of place; its position depends only on how far you have scrolled (k).
+  // Before it moves, the real logo shows; once it lands, the bar's own MH (which scrolls in
+  // step with the bar) takes over.
+  const flyer = logo.cloneNode(true);
+  flyer.classList.add('logo-flyer');
+  flyer.setAttribute('aria-hidden', 'true');
+  flyer.setAttribute('tabindex', '-1');
+  flyer.removeAttribute('href');
+  document.body.appendChild(flyer);
+
   let m = null;
   function measure() {
-    logo.style.transform = '';
     const r = logo.getBoundingClientRect();
+    const text = document.createRange();
+    text.selectNodeContents(logo);
+    const t = text.getBoundingClientRect();
     const big = parseFloat(getComputedStyle(logo).fontSize);
     const small = parseFloat(getComputedStyle(slot).fontSize);
     const scale = small / big;
-    const rowH = parseFloat(getComputedStyle(slot).height);
+    bar.style.setProperty('--slot-w', `${t.width * scale}px`);
+    // the bar's own MH, measured where it sits once the bar is pinned at the top
+    const st = document.createRange();
+    st.selectNodeContents(slot);
+    const sr = st.getBoundingClientRect(), br = bar.getBoundingClientRect();
     m = {
-      left: r.left,
-      top: r.top + window.scrollY,               // page position of the logo
+      left: t.left,
+      top: r.top + window.scrollY,                // page position of the logo box
       pin: sentinel.getBoundingClientRect().top + window.scrollY, // scroll where the bar pins
-      endLeft: bar.getBoundingClientRect().left + slot.offsetLeft,
-      endTop: slot.offsetTop + (rowH - small) / 2, // bar sits at the top of the screen when pinned
+      endLeft: sr.left,
+      endTop: sr.top - br.top + (r.top - t.top) * scale, // line up glyphs, bar at top of screen
       scale,
     };
-    const text = document.createRange();
-    text.selectNodeContents(logo);
-    bar.style.setProperty('--slot-w', `${text.getBoundingClientRect().width * scale}px`);
+    flyer.style.left = `${t.left}px`;
+    flyer.style.top = `${r.top + window.scrollY}px`;
     update();
   }
 
@@ -191,28 +206,38 @@
   const heading = document.querySelector('.site-header h1');
   // on phones the heading sits under the logo and scrolls up beneath it:
   // a soft mask hides each line as it reaches the bottom of the logo
-  function fadeHeading() {
+  function fadeHeading(k) {
     if (!heading) return;
-    const a = logo.getBoundingClientRect(), h = heading.getBoundingClientRect();
+    const clear = () => { heading.style.maskImage = heading.style.webkitMaskImage = ''; };
+    if (k === 0) return clear();
+    const a = flyer.getBoundingClientRect(), h = heading.getBoundingClientRect();
     const under = a.right > h.left && a.left < h.right;
     const cut = a.bottom - h.top + 4; // px into the heading that are behind the logo
-    if (!under || cut <= 0) { heading.style.maskImage = heading.style.webkitMaskImage = ''; return; }
+    if (!under || cut <= 0) return clear();
     const mask = `linear-gradient(to bottom, transparent ${cut}px, #000 ${cut + 24}px)`;
     heading.style.maskImage = heading.style.webkitMaskImage = mask;
   }
 
+  let state = '';
+  function show(next) {
+    if (next === state) return;
+    state = next;
+    logo.style.visibility = next === 'rest' ? '' : 'hidden';
+    flyer.style.visibility = next === 'moving' ? 'visible' : 'hidden';
+    slot.classList.toggle('is-shown', next === 'landed');
+  }
+
   function update() {
     if (!m) return;
-    requestAnimationFrame(fadeHeading);
-    const y = window.scrollY;
-    const k = ease(Math.min(Math.max(y / m.pin, 0), 1));
+    const k = ease(Math.min(Math.max(window.scrollY / m.pin, 0), 1));
     bar.style.setProperty('--k', k);
-    if (k === 0) { logo.style.transform = ''; logo.classList.remove('is-moving'); return; }
-    logo.classList.add('is-moving');
-    // where the logo should be on screen now, minus where the page has scrolled it to
-    const tx = lerp(m.left, m.endLeft, k) - m.left;
-    const ty = lerp(m.top, m.endTop, k) - (m.top - y);
-    logo.style.transform = `translate(${tx}px, ${ty}px) scale(${lerp(1, m.scale, k)})`;
+    if (k === 0) { show('rest'); fadeHeading(0); return; }
+    // the copy is fixed to the screen at the logo's starting point; move it toward the bar
+    const tx = lerp(0, m.endLeft - m.left, k);
+    const ty = lerp(0, m.endTop - m.top, k);
+    flyer.style.transform = `translate(${tx}px, ${ty}px) scale(${lerp(1, m.scale, k)})`;
+    show(k === 1 ? 'landed' : 'moving');
+    fadeHeading(k);
   }
 
   let queued = false;
@@ -222,16 +247,18 @@
     requestAnimationFrame(() => { queued = false; update(); });
   }
 
-  // once it has moved, the logo takes you to the top instead of reloading the page
-  logo.addEventListener('click', (e) => {
-    if (window.scrollY > 0 && !reduce.matches) { e.preventDefault(); window.scrollTo({ top: 0 }); }
-  });
+  // the travelling and landed MH take you back to the top
+  const toTop = (e) => { e.preventDefault(); window.scrollTo({ top: 0 }); logo.focus({ preventScroll: true }); };
+  flyer.addEventListener('click', toTop);
+  slot.addEventListener('click', toTop);
 
   function setup() {
     document.documentElement.classList.toggle('reduce-motion', reduce.matches);
     window.removeEventListener('scroll', onScroll);
     if (reduce.matches) {
-      m = null; logo.style.transform = ''; bar.style.setProperty('--k', 0);
+      m = null; state = '';
+      logo.style.visibility = ''; flyer.style.visibility = 'hidden'; slot.classList.remove('is-shown');
+      bar.style.setProperty('--k', 0);
       if (heading) heading.style.maskImage = heading.style.webkitMaskImage = '';
       return;
     }
@@ -239,8 +266,16 @@
     measure();
   }
   reduce.addEventListener('change', setup);
-  window.addEventListener('resize', () => { if (!reduce.matches) measure(); });
-  document.fonts?.ready.then(() => { if (!reduce.matches) measure(); });
-  window.addEventListener('load', () => { if (!reduce.matches) measure(); });
+  const remeasure = () => {
+    if (reduce.matches) return;
+    // measure from the page's resting layout
+    const y = window.scrollY;
+    bar.style.setProperty('--k', 1);
+    measure();
+    if (window.scrollY !== y) window.scrollTo(0, y);
+  };
+  window.addEventListener('resize', remeasure);
+  document.fonts?.ready.then(remeasure);
+  window.addEventListener('load', remeasure);
   setup();
 })();

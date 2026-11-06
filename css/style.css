@@ -398,8 +398,11 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 }
 .filters { column-gap: 1.6rem; }
 .filter-status { min-width: max(0px, calc(7.2em - var(--k, 0) * (var(--slot-w, 0px) + 1.6rem))); }
-.site-header .logo { position: relative; z-index: 6; transform-origin: 0 0; }
-.site-header .logo.is-moving { will-change: transform; }
+.logo-flyer {
+  position: fixed; z-index: 6; margin: 0; display: inline-block; width: auto;
+  transform-origin: 0 0; will-change: transform; visibility: hidden; cursor: pointer;
+}
+.bar-slot.is-shown { visibility: visible; cursor: pointer; }
 /* reduced motion: the logo stays put; a plain small MH shows in the bar once pinned */
 .reduce-motion .filters.is-stuck .bar-slot { visibility: visible; width: auto; margin-right: 0; }
 @media (max-width: 768px) {
