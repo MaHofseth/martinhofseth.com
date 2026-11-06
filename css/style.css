@@ -391,6 +391,71 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
   .page-nav:has(.mid) > :last-child { justify-self: end; }
 }
 
+/* ---------- Language (English / Norwegian) ----------
+   Bilingual text is written twice, marked lang="en" and lang="nb"; js/lang.js sets the
+   language on <html> and this hides the other one. */
+:root[lang="en"] body [lang="nb"],
+:root[lang="nb"] body [lang="en"] { display: none; }
+
+/* EN / NO switch, top right of the header. The dark knob slides to the active language. */
+.site-header { position: relative; }
+.lang-toggle {
+  position: absolute;
+  top: calc(2rem * var(--p));
+  right: calc(2rem * var(--p));
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 2px;
+  font: inherit;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #111;
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999rem;
+  cursor: pointer;
+  pointer-events: auto;
+  --knob-text: #fff;
+}
+.lang-toggle::before {
+  content: "";
+  position: absolute;
+  top: 2px; bottom: 2px; left: 2px;
+  width: calc(50% - 2px);
+  border-radius: 999rem;
+  background: currentColor;
+  transition: transform 0.2s ease;
+}
+:root[lang="nb"] .lang-toggle::before { transform: translateX(100%); }
+.lang-toggle span { position: relative; padding: 0.5rem 0.9rem; text-align: center; transition: color 0.2s ease; }
+:root[lang="en"] .lang-toggle span:first-child,
+:root[lang="nb"] .lang-toggle span:last-child { color: var(--knob-text); }
+.lang-toggle:hover span { text-decoration: underline; text-underline-offset: 0.15em; }
+.reduce-motion .lang-toggle::before, .reduce-motion .lang-toggle span { transition: none; }
+/* project pages: the header is white with mix-blend-mode: difference, so it reads on any photo */
+.page-header .lang-toggle { color: #fff; --knob-text: #000; }
+/* the top of the switch lines up with the top of the capitals in "MH" and the title
+   (header padding + where the cap top sits in the title's line, see "Type scale") */
+.site-header .lang-toggle { top: calc(2rem * var(--p) + 0.1745 * 4.5rem); }
+.page-header .lang-toggle { top: calc(2.2rem * var(--p) + 0.1745 * 3.8rem); }
+@media (max-width: 768px) {
+  .site-header .lang-toggle { top: calc(2rem * var(--p) + 0.1485 * 9.4rem); }
+  .page-header .lang-toggle { top: calc(2.2rem * var(--p) + 0.1745 * 3.5rem); }
+  .page-header .stack-m ~ .lang-toggle { top: calc(2.2rem * var(--p) + 0.1485 * 9.4rem); }
+}
+/* keep the titles clear of the switch */
+@media (min-width: 769px) {
+  .site-header h1 { padding-right: 10rem; }
+  .page-header .right h2 { margin-right: 10rem; }
+}
+@media (max-width: 768px) {
+  .lang-toggle { font-size: 1.7rem; }
+  .lang-toggle span { padding: 0.9rem 1.3rem; min-width: 44px; }
+  .page-header .cols:not(.stack-m) .right h2 { margin-right: 13rem; }
+}
+
 /* ---------- Tag filter ---------- */
 .filters {
   display: flex;
