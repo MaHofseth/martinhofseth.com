@@ -7,8 +7,8 @@
   box.className = 'lightbox';
   box.innerHTML =
     '<img alt="">' +
-    '<button class="prev" aria-label="Previous image">&#8592;</button>' +
-    '<button class="next" aria-label="Next image">&#8594;</button>';
+    '<button class="prev" aria-label="Previous image" data-aria-label-nb="Forrige bilde">&#8592;</button>' +
+    '<button class="next" aria-label="Next image" data-aria-label-nb="Neste bilde">&#8594;</button>';
   document.body.appendChild(box);
   const big = box.querySelector('img');
   let index = 0;

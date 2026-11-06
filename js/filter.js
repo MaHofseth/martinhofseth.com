@@ -5,8 +5,13 @@
   const bar = document.querySelector('.filters');
   if (!bar) return;
 
+  // a tag's key is its English name (data-tag); it is what goes in the address
+  const keyOf = (t) => t.dataset.tag || t.textContent.trim();
+  const nb = () => window.siteLang?.() === 'nb';
   const projects = Array.from(document.querySelectorAll('main .project'));
-  const tagsOf = new Map(projects.map((p) => [p, Array.from(p.querySelectorAll('.tag')).map((t) => t.textContent.trim())]));
+  const tagsOf = new Map(projects.map((p) => [p, Array.from(p.querySelectorAll('.tag')).map(keyOf)]));
+  const labelOf = new Map();
+  document.querySelectorAll('main .project .tag').forEach((t) => labelOf.set(keyOf(t), t.innerHTML));
 
   // all tags, most used first, then alphabetical
   const counts = new Map();
@@ -23,13 +28,13 @@
     const b = document.createElement('button');
     b.type = 'button';
     b.className = 'filter';
-    b.textContent = label;
+    b.innerHTML = label; // both language versions; CSS shows the active one
     if (tag) b.dataset.tag = tag;
     list.appendChild(b);
     return b;
   }
-  const allButton = button('All');
-  allTags.forEach((t) => button(t, t));
+  const allButton = button('<span lang="en">All</span><span lang="nb">Alle</span>');
+  allTags.forEach((t) => button(labelOf.get(t), t));
 
   function render() {
     let shown = 0;
@@ -43,10 +48,17 @@
       b.setAttribute('aria-pressed', on);
     });
     // highlight matching tags inside each project
-    document.querySelectorAll('main .project .tag').forEach((t) => t.classList.toggle('is-match', selected.has(t.textContent.trim())));
-    status.textContent = selected.size ? `${shown} of ${projects.length} projects` : `${projects.length} projects`;
+    document.querySelectorAll('main .project .tag').forEach((t) => {
+      t.classList.toggle('is-match', selected.has(keyOf(t)));
+      const name = (t.querySelector(`[lang="${nb() ? 'nb' : 'en'}"]`) || t).textContent.trim();
+      t.title = nb() ? `Vis bare ${name}` : `Show only ${name}`;
+    });
+    const n = projects.length;
+    if (nb()) status.textContent = selected.size ? `${shown} av ${n} prosjekter` : `${n} prosjekter`;
+    else status.textContent = selected.size ? `${shown} of ${n} projects` : `${n} projects`;
     if (countEl) countEl.textContent = selected.size || '';
-    if (toggleBtn) toggleBtn.setAttribute('aria-label', selected.size ? `Filter, ${selected.size} selected` : 'Filter');
+    const word = nb() ? 'Filtrer' : 'Filter';
+    if (toggleBtn) toggleBtn.setAttribute('aria-label', selected.size ? `${word}, ${selected.size} ${nb() ? 'valgt' : 'selected'}` : word);
 
     const url = new URL(location.href);
     if (selected.size) url.searchParams.set('tags', Array.from(selected).join(','));
@@ -87,9 +99,8 @@
   document.querySelectorAll('main .project .tag').forEach((t) => {
     t.setAttribute('role', 'button');
     t.tabIndex = 0;
-    t.title = `Show only ${t.textContent.trim()}`;
     const go = () => {
-      toggle(t.textContent.trim());
+      toggle(keyOf(t));
       bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
     t.addEventListener('click', go);
@@ -100,6 +111,7 @@
   const fromUrl = new URLSearchParams(location.search).get('tags');
   if (fromUrl) fromUrl.split(',').forEach((t) => counts.has(t) && selected.add(t));
   render();
+  document.addEventListener('langchange', render);
 })();
 
 // pinned bar: thin line, one-row fit, and the MH logo that travels into the bar
