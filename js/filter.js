@@ -108,5 +108,14 @@
   if (!bar || getComputedStyle(bar).position !== 'sticky') return;
   const sentinel = document.createElement('div');
   bar.before(sentinel);
-  new IntersectionObserver(([e]) => bar.classList.toggle('is-stuck', !e.isIntersecting)).observe(sentinel);
+  const top = bar.querySelector('.to-top');
+  new IntersectionObserver(([e]) => {
+    const stuck = !e.isIntersecting && e.boundingClientRect.top < 0;
+    bar.classList.toggle('is-stuck', stuck);
+    if (top) top.hidden = !stuck;
+  }).observe(sentinel);
+  if (top) top.addEventListener('click', () => {
+    window.scrollTo({ top: 0 });
+    document.querySelector('.logo')?.focus({ preventScroll: true });
+  });
 })();
