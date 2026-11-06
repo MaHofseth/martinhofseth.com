@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Eversnow (2022) — Martin Hofseth</title>
   <meta name="description" content="Eversnow (2022): music video for the single “Eversnow” by IMGFound.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=30">
+  <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=31">
 </head>
 <body>
 
@@ -20,11 +18,14 @@
   </header>
 
   <main class="content" style="--top:calc(10rem * var(--p) + 6rem)">
-    <div class="video r43"><iframe src="https://www.youtube-nocookie.com/embed/JLWMVNxf6Gg" title="IMGfound – Eversnow (video)" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>
+    <div class="video r43 click-embed" data-embed-src="https://www.youtube-nocookie.com/embed/JLWMVNxf6Gg?autoplay=1" data-embed-title="IMGfound – Eversnow (video)" data-embed-allow="autoplay; encrypted-media; picture-in-picture; fullscreen">
+      <button type="button" class="embed-load" aria-label="Play video: IMGfound – Eversnow (video) (loads from YouTube)"><img src="images/eversnow-front.jpg" alt="Still from the Eversnow music video"><span class="play">▶ Play video</span></button>
+    </div>
+    <p class="embed-note">Pressing play loads the video from YouTube (Google), which can then see your IP address and store data in your browser. <a href="index.html#privacy">Privacy</a></p>
   </main>
 
   <nav class="page-nav"><a href="index.html"><span class="nowrap"><span class="arrow">←</span> All work</span></a><a href="du-er-her.html">Next: “Du er <span class="nowrap">her” <span class="arrow">→</span></span></a></nav>
 
-  <script src="js/main.js?v=30"></script>
+  <script src="js/main.js?v=31"></script>
 </body>
 </html>

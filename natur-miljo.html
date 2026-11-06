@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Natur&amp;Miljø (2022) — Martin Hofseth</title>
   <meta name="description" content="Natur&amp;Miljø (2022): prototype of a new mobile website for the magazine Natur&amp;Miljø.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=30">
+  <link rel="preload" href="fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css?v=31">
 </head>
 <body>
 
@@ -20,12 +18,15 @@
   </header>
 
   <main class="content" style="--top:calc(8rem * var(--p) + 10rem)">
-    <iframe class="embed prototype" src="https://embed.figma.com/proto/9YAMmVn3LNL5mqdygYusNI/Natur---Milj%C3%B8?page-id=0%3A1&amp;node-id=5-1229&amp;p=f&amp;viewport=-3%2C516%2C0.32&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=5%3A1229&amp;embed-host=share" title="Natur&amp;Miljø prototype (Figma)" allow="fullscreen" allowfullscreen></iframe>
+    <div class="embed prototype click-embed" data-embed-src="https://embed.figma.com/proto/9YAMmVn3LNL5mqdygYusNI/Natur---Milj%C3%B8?page-id=0%3A1&amp;node-id=5-1229&amp;p=f&amp;viewport=-3%2C516%2C0.32&amp;scaling=scale-down&amp;content-scaling=fixed&amp;starting-point-node-id=5%3A1229&amp;embed-host=share" data-embed-title="Natur&amp;Miljø prototype (Figma)" data-embed-allow="fullscreen">
+      <button type="button" class="embed-load" aria-label="Load the interactive prototype (loads from Figma)"><img src="images/natur-miljo-front.png" alt="Natur&amp;Miljø mobile website prototype"><span class="play">▶ Load interactive prototype</span></button>
+    </div>
+    <p class="embed-note">Loading the prototype connects to Figma, which can then see your IP address and store data in your browser. <a href="index.html#privacy">Privacy</a></p>
     <a class="embed-link" href="https://www.figma.com/proto/9YAMmVn3LNL5mqdygYusNI/Natur---Milj%C3%B8?page-id=0%3A1&amp;node-id=5-1229&amp;starting-point-node-id=5%3A1229&amp;scaling=scale-down" target="_blank" rel="noopener">Open the prototype in Figma <span class="arrow">↗</span></a>
   </main>
 
   <nav class="page-nav"><a href="index.html"><span class="nowrap"><span class="arrow">←</span> All work</span></a><a href="eksponeringsterapi.html">Next: <span class="nowrap">Eksponeringsterapi <span class="arrow">→</span></span></a></nav>
 
-  <script src="js/main.js?v=30"></script>
+  <script src="js/main.js?v=31"></script>
 </body>
 </html>

@@ -41,3 +41,19 @@
     if (e.key === 'ArrowRight') show(index + 1);
   });
 })();
+
+// Click-to-load embeds (YouTube, Figma): the third-party iframe is only created when the
+// visitor presses the button, so nothing is sent to those services before that.
+document.querySelectorAll('.click-embed').forEach((box) => {
+  const btn = box.querySelector('.embed-load');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const f = document.createElement('iframe');
+    f.src = box.dataset.embedSrc;
+    f.title = box.dataset.embedTitle || '';
+    if (box.dataset.embedAllow) f.allow = box.dataset.embedAllow;
+    f.allowFullscreen = true;
+    btn.replaceWith(f);
+    f.focus();
+  });
+});
