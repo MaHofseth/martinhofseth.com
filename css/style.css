@@ -229,6 +229,8 @@ a:hover > .arrow { transform: translateX(0.15em); }
 .about .row a { text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.35); text-underline-offset: 0.15em; }
 .about a:hover { text-decoration: underline; text-decoration-color: #fff; }
 .about .contact { padding-top: calc(3rem * var(--p)); border-top: 1px solid rgba(255, 255, 255, 0.18); margin-top: calc(3rem * var(--p)); }
+/* email + Instagram + LinkedIn share the right side and wrap instead of overlapping */
+.about .contact .links { display: flex; flex-wrap: wrap; column-gap: 4rem; row-gap: 0.4em; }
 @media (max-width: 768px) {
   .about { font-size: 2.4rem; }
   .about .row { row-gap: 0.4rem; }
