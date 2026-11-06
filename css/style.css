@@ -338,7 +338,7 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 /* ---------- Tag filter ---------- */
 .filters {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 2rem;
   padding: 1.4rem calc(2rem * var(--p));
@@ -369,7 +369,7 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 }
 .filter:hover { background: rgba(0, 0, 0, 0.06); }
 .filter[aria-pressed="true"] { background: #111; color: #fff; }
-.filter-status { margin: 0; flex: none; min-width: 7.2em; font-size: 1.4rem; color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.filter-status { margin: 0; flex: none; min-width: 7.2em; font-size: 1.4rem; line-height: calc(2.6rem + 2px); color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* tags inside projects act as filter shortcuts */
 .project .tag[role="button"] { cursor: pointer; transition: background 0.15s ease, color 0.15s ease; }
@@ -381,7 +381,7 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 /* filter toggle: only on phones, where the tags fold away behind it */
 .filter-toggle { display: none; }
 @media (max-width: 768px) {
-  .filters { flex-wrap: wrap; justify-content: space-between; gap: 1.2rem; padding-top: 1.2rem; padding-bottom: 1.2rem; }
+  .filters { flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.2rem; padding-top: 1.2rem; padding-bottom: 1.2rem; }
   .filter-toggle {
     display: inline-flex; align-items: center; gap: 0.8rem;
     font: inherit; font-size: 1.7rem; line-height: 1; color: #111;
