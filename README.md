@@ -36,18 +36,4 @@ Then open http://localhost:8080.
 - Layout uses a 12-column grid like Cargo: `<div class="cols">` with children `s1`–`s12` (column span).
 - Sizes scale with the window exactly like the Cargo site (see the top of `css/style.css`).
 
-## Fonts
 
-The Cargo site used Neue Haas Grotesk and Diatype, which are licensed through Cargo and
-can't be self-hosted without buying a license. This version uses Helvetica Neue (body) and
-Inter (headings). If you buy the fonts, add the files in `fonts/`, add `@font-face` rules,
-and the font stacks at the top of `css/style.css` will pick them up.
-
-## Hosting (free)
-
-Any static host works. Easiest options:
-
-- **Netlify** or **Cloudflare Pages**: drag this folder into the dashboard, or connect a GitHub repo.
-- **GitHub Pages**: push to a repo and enable Pages in its settings.
-
-Then point your domain (e.g. martinhofseth.com) at the host using its DNS instructions.
