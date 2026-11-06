@@ -160,6 +160,9 @@ h2 .year { color: inherit; }
   align-items: var(--valign, start);
 }
 .gallery.one { --columns: 1; }
+/* same height: each photo's width is in proportion to its shape (--ar = width / height) */
+.gallery.same-h { display: flex; align-items: flex-start; }
+.gallery.same-h img { flex: var(--ar) 1 0; min-width: 0; }
 @media (max-width: 768px) { .gallery.m1 { --columns: 1; gap: calc(4rem * var(--p)); } }
 
 .video { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
