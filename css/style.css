@@ -2,12 +2,12 @@
    Layout and scaling follow the original Cargo site; typography and details
    are tuned for a clear hierarchy: name → project title → image → description → tags. */
 
-/* Fonts: one family (Inter) throughout. The Cargo site used Neue Haas Grotesk and
+/* Fonts: one family (Archivo) throughout. The Cargo site used Neue Haas Grotesk and
    Diatype, which are licensed through Cargo. If you buy licenses, add @font-face
    rules and put them first in these stacks. */
 :root {
-  --font-body: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-head: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-head: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --ink: #111;
   --muted: rgba(0, 0, 0, 0.72);   /* descriptions, secondary text */
   --faint: rgba(0, 0, 0, 0.45);   /* years, labels */
@@ -86,7 +86,7 @@ h2 {
   color: #000;
   margin-bottom: 0.55em;
 }
-.year { font-size: 0.5em; font-weight: 400; letter-spacing: 0; color: var(--faint); white-space: nowrap; }
+.year { font-size: 0.5em; font-weight: 400; letter-spacing: 0; color: var(--muted); white-space: nowrap; }
 h2 .year { color: inherit; }
 .desc {
   display: block;
@@ -160,6 +160,13 @@ h2 .year { color: inherit; }
 .video.r43 { aspect-ratio: 4 / 3; }
 
 .embed { display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid var(--line); }
+/* Figma prototype: fill the screen below the header so the whole phone frame fits */
+.embed.prototype { aspect-ratio: auto; height: calc(100svh - max(var(--top, 10rem), calc(9.4rem + 2.2rem * var(--p) + 4rem)) - 6rem); min-height: 420px; background: #1e1e1e; }
+.embed-link { display: inline-block; margin-top: 1.2rem; font-size: 1.4rem; color: var(--muted); }
+.embed-link:hover { color: var(--ink); }
+@media (max-width: 768px) {
+  .embed.prototype { height: calc(100svh - max(var(--top, 10rem), 19rem) - 6rem); min-height: 480px; }
+}
 
 /* video still on the home page */
 .poster { position: relative; display: block; }
