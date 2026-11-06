@@ -113,11 +113,48 @@
   const logo = document.querySelector('.site-header .logo');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  const toggle = bar.querySelector('.filter-toggle');
+  const desktop = window.matchMedia('(min-width: 769px)');
+  let baseMargin = null;
+  let looseHeight = 0; // the bar's height just before it pins
+
+  // pinned on a desktop where the tags would wrap: fold them behind the Filter button.
+  // The bar gets shorter, so its bottom margin grows by the same amount and nothing below moves.
+  function fitPinned() {
+    const stuck = bar.classList.contains('is-stuck');
+    bar.classList.remove('is-compact');
+    bar.style.marginBottom = '';
+    if (!stuck || !desktop.matches) {
+      looseHeight = bar.offsetHeight;
+      bar.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    const tags = bar.querySelectorAll('.filter');
+    const wraps = tags.length && tags[tags.length - 1].offsetTop > tags[0].offsetTop;
+    if (!wraps) return;
+    if (baseMargin === null) baseMargin = parseFloat(getComputedStyle(bar).marginBottom);
+    const full = looseHeight || bar.offsetHeight;
+    bar.classList.add('is-compact');
+    bar.style.marginBottom = `${baseMargin + full - bar.offsetHeight}px`;
+  }
+
   new IntersectionObserver(([e]) => {
     const stuck = !e.isIntersecting && e.boundingClientRect.top < 0;
     bar.classList.toggle('is-stuck', stuck);
     if (top) top.hidden = !stuck;
+    fitPinned();
   }).observe(sentinel);
+  window.addEventListener('resize', () => {
+    baseMargin = null;
+    if (bar.classList.contains('is-stuck')) {
+      bar.classList.remove('is-stuck', 'is-compact'); bar.style.marginBottom = '';
+      if (top) top.hidden = true;
+      looseHeight = bar.offsetHeight;
+      bar.classList.add('is-stuck'); if (top) top.hidden = false;
+    }
+    fitPinned();
+  });
   if (top) top.addEventListener('click', () => {
     window.scrollTo({ top: 0 });
     logo?.focus({ preventScroll: true });
