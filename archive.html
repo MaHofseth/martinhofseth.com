@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
 
@@ -20,6 +20,10 @@
   </header>
 
   <main class="archive-list">
+    <nav class="filters" aria-label="Filter projects by tag">
+      <div class="filter-list"></div>
+      <p class="filter-status" aria-live="polite"></p>
+    </nav>
     <section class="project">
       <div class="cols" style="--mgap:3rem">
         <div class="s4">
@@ -63,7 +67,7 @@
         <div class="s4">
           <span class="heading">Eksponeringsterapi <span class="year">(2023)</span></span>
           <span class="desc">Musikkvideo for Daufødt og Lasse Marhaugs samarbeidskassett</span>
-          <div class="tags"><span class="tag">Musikkvideo</span></div>
+          <div class="tags"><span class="tag">Music video</span></div>
         </div>
         <div class="s8">
           <div class="video wide"><iframe src="https://www.youtube-nocookie.com/embed/810kWLPBD0E" title="Daufødt x Lasse Marhaug – Eksponeringsterapi" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>
@@ -74,6 +78,7 @@
 
   <nav class="page-nav"><a href="index.html"><span class="nowrap"><span class="arrow">←</span> All work</span></a></nav>
 
-  <script src="js/main.js?v=3"></script>
+  <script src="js/main.js?v=4"></script>
+  <script src="js/filter.js?v=4"></script>
 </body>
 </html>
