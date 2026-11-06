@@ -312,3 +312,17 @@ a:hover > .arrow { transform: translateX(0.15em); }
 .nowrap { white-space: nowrap; }
 h1, h2, .heading, .page-nav a { text-wrap: balance; }
 .desc, .text-col, .about { text-wrap: pretty; }
+
+/* middle link in the project nav bar */
+.page-nav { align-items: baseline; }
+.page-nav .mid { margin-right: auto; margin-left: auto; }
+.page-nav .plus { color: var(--faint); font-weight: 400; }
+@media (max-width: 768px) {
+  .page-nav { flex-wrap: wrap; row-gap: 1.6rem; }
+  .page-nav .mid { order: 3; flex-basis: 100%; margin: 0; }
+}
+@media (min-width: 769px) {
+  .page-nav:has(.mid) { display: grid; grid-template-columns: 1fr auto 1fr; }
+  .page-nav:has(.mid) .mid { margin: 0; }
+  .page-nav:has(.mid) > :last-child { justify-self: end; }
+}
