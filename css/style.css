@@ -63,6 +63,14 @@ h1 {
   letter-spacing: -0.025em;
   color: #000;
 }
+/* line the top of "MH" up with the top of the capitals in the text next to it
+   (Archivo: cap top sits 0.1485em into a 1.0 line, 0.1745em into a 1.05 line) */
+.page-header .logo { margin-top: calc(0.1745 * 3.8rem - 0.1485 * 9.4rem); }
+@media (min-width: 769px) { .site-header .logo { margin-top: calc(0.1745 * 4.5rem - 0.1485 * 9.4rem); } }
+@media (max-width: 768px) {
+  .page-header .logo { margin-top: calc(0.1745 * 3.5rem - 0.1485 * 9.4rem); }
+  .page-header .stack-m .logo { margin-top: 0; }
+}
 h1 a { text-decoration: underline; text-underline-offset: 0.1em; text-decoration-thickness: 0.05em; }
 h1 a:hover { text-decoration-thickness: 0.09em; }
 h2 {
