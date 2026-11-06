@@ -16,6 +16,8 @@
   const selected = new Set();
   const list = bar.querySelector('.filter-list');
   const status = bar.querySelector('.filter-status');
+  const toggleBtn = bar.querySelector('.filter-toggle');
+  const countEl = bar.querySelector('.filter-count');
 
   function button(label, tag) {
     const b = document.createElement('button');
@@ -43,6 +45,8 @@
     // highlight matching tags inside each project
     document.querySelectorAll('main .project .tag').forEach((t) => t.classList.toggle('is-match', selected.has(t.textContent.trim())));
     status.textContent = selected.size ? `${shown} of ${projects.length} projects` : `${projects.length} projects`;
+    if (countEl) countEl.textContent = selected.size || '';
+    if (toggleBtn) toggleBtn.setAttribute('aria-label', selected.size ? `Filter, ${selected.size} selected` : 'Filter');
 
     const url = new URL(location.href);
     if (selected.size) url.searchParams.set('tags', Array.from(selected).join(','));
@@ -62,6 +66,22 @@
     if (b === allButton) { selected.clear(); render(); }
     else toggle(b.dataset.tag);
   });
+
+  // phones: the tag list folds away behind the Filter button
+  function setOpen(open) {
+    bar.classList.toggle('is-open', open);
+    toggleBtn.setAttribute('aria-expanded', open);
+  }
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const open = toggleBtn.getAttribute('aria-expanded') !== 'true';
+      setOpen(open);
+      if (open) list.querySelector('.filter')?.focus();
+    });
+    bar.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && bar.classList.contains('is-open')) { setOpen(false); toggleBtn.focus(); }
+    });
+  }
 
   // tags inside projects work as filter shortcuts too
   document.querySelectorAll('main .project .tag').forEach((t) => {

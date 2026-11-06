@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=9">
+  <link rel="stylesheet" href="css/style.css?v=10">
 </head>
 <body>
 
@@ -23,7 +23,11 @@
 
   <nav class="filters" aria-label="Filter projects by tag">
     <p class="filter-status" aria-live="polite"></p>
-    <div class="filter-list"></div>
+    <button class="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-list">
+      <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M3 6h18M6 12h12M10 18h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Filter</span><span class="filter-count"></span>
+    </button>
+    <div class="filter-list" id="filter-list" role="group" aria-label="Tags"></div>
   </nav>
 
   <main>
@@ -179,7 +183,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=9"></script>
-  <script src="js/filter.js?v=9"></script>
+  <script src="js/main.js?v=10"></script>
+  <script src="js/filter.js?v=10"></script>
 </body>
 </html>
