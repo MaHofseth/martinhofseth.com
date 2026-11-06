@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=15">
+  <link rel="stylesheet" href="css/style.css?v=22">
 </head>
 <body>
 
@@ -22,13 +22,14 @@
   </header>
 
   <nav class="filters" aria-label="Filter projects by tag">
+    <span class="bar-slot" aria-hidden="true">MH</span>
     <p class="filter-status" aria-live="polite"></p>
     <button class="filter-toggle" type="button" aria-expanded="false" aria-controls="filter-list">
       <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M3 6h18M6 12h12M10 18h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       <span>Filter</span><span class="filter-count"></span>
     </button>
     <div class="filter-list" id="filter-list" role="group" aria-label="Tags"></div>
-    <button class="to-top" type="button" hidden>Top <span class="arrow" aria-hidden="true">↑</span></button>
+    <button class="to-top" type="button" aria-label="Back to top" title="Back to top" hidden><span aria-hidden="true">↑</span></button>
   </nav>
 
   <main>
@@ -186,7 +187,7 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=15"></script>
-  <script src="js/filter.js?v=15"></script>
+  <script src="js/main.js?v=22"></script>
+  <script src="js/filter.js?v=22"></script>
 </body>
 </html>

@@ -102,13 +102,17 @@
   render();
 })();
 
-// thin line under the bar once it sticks to the top
+// pinned bar: thin line, back-to-top button, and the MH logo that travels into the bar
 (function () {
   const bar = document.querySelector('.filters');
   if (!bar || getComputedStyle(bar).position !== 'sticky') return;
   const sentinel = document.createElement('div');
   bar.before(sentinel);
   const top = bar.querySelector('.to-top');
+  const slot = bar.querySelector('.bar-slot');
+  const logo = document.querySelector('.site-header .logo');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
   new IntersectionObserver(([e]) => {
     const stuck = !e.isIntersecting && e.boundingClientRect.top < 0;
     bar.classList.toggle('is-stuck', stuck);
@@ -116,6 +120,90 @@
   }).observe(sentinel);
   if (top) top.addEventListener('click', () => {
     window.scrollTo({ top: 0 });
-    document.querySelector('.logo')?.focus({ preventScroll: true });
+    logo?.focus({ preventScroll: true });
   });
+
+  if (!slot || !logo) return;
+
+  // measured with the logo in its normal place
+  let m = null;
+  function measure() {
+    logo.style.transform = '';
+    const r = logo.getBoundingClientRect();
+    const big = parseFloat(getComputedStyle(logo).fontSize);
+    const small = parseFloat(getComputedStyle(slot).fontSize);
+    const scale = small / big;
+    const rowH = parseFloat(getComputedStyle(slot).height);
+    m = {
+      left: r.left,
+      top: r.top + window.scrollY,               // page position of the logo
+      pin: sentinel.getBoundingClientRect().top + window.scrollY, // scroll where the bar pins
+      endLeft: bar.getBoundingClientRect().left + slot.offsetLeft,
+      endTop: slot.offsetTop + (rowH - small) / 2, // bar sits at the top of the screen when pinned
+      scale,
+    };
+    const text = document.createRange();
+    text.selectNodeContents(logo);
+    bar.style.setProperty('--slot-w', `${text.getBoundingClientRect().width * scale}px`);
+    update();
+  }
+
+  const ease = (x) => x * x * (3 - 2 * x); // smoothstep: gentle start and landing
+  const lerp = (a, b, x) => a + (b - a) * x;
+
+  const heading = document.querySelector('.site-header h1');
+  // on phones the heading sits under the logo and scrolls up beneath it:
+  // a soft mask hides each line as it reaches the bottom of the logo
+  function fadeHeading() {
+    if (!heading) return;
+    const a = logo.getBoundingClientRect(), h = heading.getBoundingClientRect();
+    const under = a.right > h.left && a.left < h.right;
+    const cut = a.bottom - h.top + 4; // px into the heading that are behind the logo
+    if (!under || cut <= 0) { heading.style.maskImage = heading.style.webkitMaskImage = ''; return; }
+    const mask = `linear-gradient(to bottom, transparent ${cut}px, #000 ${cut + 24}px)`;
+    heading.style.maskImage = heading.style.webkitMaskImage = mask;
+  }
+
+  function update() {
+    if (!m) return;
+    requestAnimationFrame(fadeHeading);
+    const y = window.scrollY;
+    const k = ease(Math.min(Math.max(y / m.pin, 0), 1));
+    bar.style.setProperty('--k', k);
+    if (k === 0) { logo.style.transform = ''; logo.classList.remove('is-moving'); return; }
+    logo.classList.add('is-moving');
+    // where the logo should be on screen now, minus where the page has scrolled it to
+    const tx = lerp(m.left, m.endLeft, k) - m.left;
+    const ty = lerp(m.top, m.endTop, k) - (m.top - y);
+    logo.style.transform = `translate(${tx}px, ${ty}px) scale(${lerp(1, m.scale, k)})`;
+  }
+
+  let queued = false;
+  function onScroll() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => { queued = false; update(); });
+  }
+
+  // once it has moved, the logo takes you to the top instead of reloading the page
+  logo.addEventListener('click', (e) => {
+    if (window.scrollY > 0 && !reduce.matches) { e.preventDefault(); window.scrollTo({ top: 0 }); }
+  });
+
+  function setup() {
+    document.documentElement.classList.toggle('reduce-motion', reduce.matches);
+    window.removeEventListener('scroll', onScroll);
+    if (reduce.matches) {
+      m = null; logo.style.transform = ''; bar.style.setProperty('--k', 0);
+      if (heading) heading.style.maskImage = heading.style.webkitMaskImage = '';
+      return;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    measure();
+  }
+  reduce.addEventListener('change', setup);
+  window.addEventListener('resize', () => { if (!reduce.matches) measure(); });
+  document.fonts?.ready.then(() => { if (!reduce.matches) measure(); });
+  window.addEventListener('load', () => { if (!reduce.matches) measure(); });
+  setup();
 })();
