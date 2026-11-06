@@ -378,3 +378,9 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
   .filter-status { display: none; }
   .archive-list .filters .filter-list { margin-right: 0; }
 }
+
+/* phones: photo first, then title, text and tags */
+@media (max-width: 768px) {
+  .project .cols > .s8 { order: -1; }
+  .project .cols { row-gap: 1.6rem; }
+}
