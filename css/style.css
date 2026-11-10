@@ -41,6 +41,13 @@
   --p: 1; /* spacing multiplier: shrinks padding/gaps to 60% on phones, like Cargo */
 }
 
+/* While the theme flips, switch transitions off for one frame. Otherwise pills, tags and
+   the EN/NO switch fade their colours while the page background snaps, which flickers.
+   js/main.js adds this class when the system theme changes. */
+.theme-switching, .theme-switching *, .theme-switching *::before, .theme-switching *::after {
+  transition: none !important;
+}
+
 /* Dark mode: follows the visitor's system setting. Only the tokens change; every rule
    above and below reads them, so nothing else needs a dark variant. */
 @media (prefers-color-scheme: dark) {

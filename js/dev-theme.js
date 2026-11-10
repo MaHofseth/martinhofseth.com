@@ -21,9 +21,11 @@
 
   function apply(mode) {
     const text = mode === 'dark' ? 'all' : mode === 'light' ? 'not all' : QUERY;
-    rules.forEach((rule) => { rule.media.mediaText = text; });
-    // keep scrollbars and form controls in step with the forced theme
-    document.documentElement.style.colorScheme = mode === 'auto' ? '' : mode;
+    window.switchThemeInstantly(() => {
+      rules.forEach((rule) => { rule.media.mediaText = text; });
+      // keep scrollbars and form controls in step with the forced theme
+      document.documentElement.style.colorScheme = mode === 'auto' ? '' : mode;
+    });
     button.textContent = 'Theme: ' + mode;
     try { localStorage.setItem(KEY, mode); } catch (e) { /* storage blocked: fine */ }
   }

@@ -1,3 +1,15 @@
+// Flip the theme without transitions: pills and tags would otherwise fade their colours
+// while the background snaps, which reads as a flicker. Runs `change` (if any) inside it.
+window.switchThemeInstantly = function (change) {
+  const root = document.documentElement;
+  root.classList.add('theme-switching');
+  if (change) change();
+  getComputedStyle(root).color; // apply the new colours now, while transitions are off
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('theme-switching')));
+};
+// the visitor's system switches between light and dark (e.g. automatic at sunset)
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => window.switchThemeInstantly());
+
 // Dev only: on localhost, load a light/dark test switch (js/dev-theme.js). Never runs in production.
 if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
   const s = document.createElement('script');
