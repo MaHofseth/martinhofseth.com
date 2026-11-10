@@ -181,6 +181,8 @@ h2 .year { color: inherit; }
 /* same height: each photo's width is in proportion to its shape (--ar = width / height) */
 .gallery.same-h { display: flex; align-items: flex-start; }
 .gallery.same-h img { flex: var(--ar) 1 0; min-width: 0; }
+/* same size: every photo is cropped to the same shape (--crop, default 4:5 portrait); the lightbox still shows the whole photo */
+.gallery.same-size img { aspect-ratio: var(--crop, 4 / 5); object-fit: cover; }
 @media (max-width: 768px) { .gallery.m1 { --columns: 1; gap: calc(4rem * var(--p)); } }
 
 .video { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; }
