@@ -367,6 +367,7 @@ img.fit-screen { width: auto; max-width: 100%; max-height: calc(100svh - 4rem); 
   cursor: pointer;
 }
 .lightbox button:hover { background: rgba(0, 0, 0, 0.12); }
+.lightbox .close { top: 20px; right: 20px; transform: none; font-size: 20px; }
 .lightbox .prev { left: 20px; }
 .lightbox .next { right: 20px; }
 @media (max-width: 768px) { .lightbox { padding: 10px; } }
