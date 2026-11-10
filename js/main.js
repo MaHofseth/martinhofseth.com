@@ -1,3 +1,10 @@
+// Dev only: on localhost, load a light/dark test switch (js/dev-theme.js). Never runs in production.
+if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
+  const s = document.createElement('script');
+  s.src = new URL('dev-theme.js', document.currentScript.src).href;
+  document.body.appendChild(s);
+}
+
 // Click-to-zoom lightbox for images marked .zoomable (like Cargo's quick view)
 (function () {
   const images = Array.from(document.querySelectorAll('img.zoomable'));
