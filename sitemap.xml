@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pages for search engines. Add new project pages here; leave out noindex pages (archive, whee, Portraits/). -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://martinhofseth.com/</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/rockslo.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/eversnow.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/du-er-her.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/ai-zines.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/snoblind.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/natur-miljo.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/eksponeringsterapi.html</loc><lastmod>2026-11-11</lastmod></url>
+  <url><loc>https://martinhofseth.com/portraits.html</loc><lastmod>2026-11-11</lastmod></url>
+</urlset>

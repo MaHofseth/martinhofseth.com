@@ -91,7 +91,7 @@ h1 {
 }
 h1 a { text-decoration: underline; text-underline-offset: 0.1em; text-decoration-thickness: 0.05em; }
 h1 a:hover { text-decoration-thickness: 0.09em; }
-h2 {
+h2, .page-header h1 {
   margin: 0;
   font-family: var(--font-head);
   font-weight: 500;
@@ -133,7 +133,7 @@ h2 .year { color: inherit; }
   padding: 0.5rem 0.95rem;
 }
 @media (max-width: 768px) {
-  h2 { font-size: 3.5rem; }
+  h2, .page-header h1 { font-size: 3.5rem; }
   .heading { font-size: 3rem; }
   .desc { font-size: 2.1rem; max-width: none; }
   .tag { font-size: 1.6rem; }
@@ -290,7 +290,7 @@ a:hover > .arrow { transform: translateX(0.15em); }
   pointer-events: none;
 }
 .page-header a { pointer-events: auto; }
-.page-header .logo, .page-header h2 { color: #fff; }
+.page-header .logo, .page-header h1 { color: #fff; }
 .page-header .cols { --gap: 1rem; grid-template-columns: 1fr 1fr; align-items: start; }
 .page-header .right { text-align: right; }
 @media (max-width: 768px) {
@@ -448,12 +448,12 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 /* keep the titles clear of the switch */
 @media (min-width: 769px) {
   .site-header h1 { padding-right: 10rem; }
-  .page-header .right h2 { margin-right: 10rem; }
+  .page-header .right h1 { margin-right: 10rem; }
 }
 @media (max-width: 768px) {
   .lang-toggle { font-size: 1.7rem; }
   .lang-toggle span { padding: 0.9rem 1.3rem; min-width: 44px; }
-  .page-header .cols:not(.stack-m) .right h2 { margin-right: 13rem; }
+  .page-header .cols:not(.stack-m) .right h1 { margin-right: 13rem; }
 }
 
 /* ---------- Tag filter ---------- */
