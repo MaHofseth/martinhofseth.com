@@ -287,6 +287,17 @@
   flyer.addEventListener('click', toTop);
   slot.addEventListener('click', toTop);
 
+  // page-to-page logo morph: the browser animates whichever element is named "mh", so when
+  // the header logo is hidden (scrolled away), give the name to the MH you can actually see
+  function nameShownLogo() {
+    const shown = state === 'moving' ? flyer : state === 'landed' ? slot : logo;
+    [logo, flyer, slot].forEach((el) => {
+      el.style.viewTransitionName = el === shown ? 'mh' : 'none';
+    });
+  }
+  window.addEventListener('pageswap', nameShownLogo);
+  window.addEventListener('pagereveal', nameShownLogo);
+
   function setup() {
     document.documentElement.classList.toggle('reduce-motion', reduce.matches);
     window.removeEventListener('scroll', onScroll);

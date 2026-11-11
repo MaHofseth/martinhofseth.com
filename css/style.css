@@ -109,6 +109,8 @@ p { margin: 0; }
   line-height: 1;
   letter-spacing: -0.045em;
   color: var(--strong);
+  /* the box hugs the letters, so the page-to-page morph scales "MH" evenly */
+  width: fit-content;
 }
 h1 {
   margin: 0;
@@ -121,10 +123,11 @@ h1 {
 }
 /* line the top of "MH" up with the top of the capitals in the text next to it
    (Archivo: cap top sits 0.1485em into a 1.0 line, 0.1745em into a 1.05 line) */
-.page-header .logo { margin-top: calc(0.1745 * 3.8rem - 0.1485 * 9.4rem); }
 @media (min-width: 769px) { .site-header .logo { margin-top: calc(0.1745 * 4.5rem - 0.1485 * 9.4rem); } }
+/* project pages: the logo shrinks to the size of the page title next to it */
+.page-header .logo { font-size: 3.8rem; margin-top: calc(0.1745 * 3.8rem - 0.1485 * 3.8rem); }
 @media (max-width: 768px) {
-  .page-header .logo { margin-top: calc(0.1745 * 3.5rem - 0.1485 * 9.4rem); }
+  .page-header .logo { font-size: 3.5rem; margin-top: calc(0.1745 * 3.5rem - 0.1485 * 3.5rem); }
   .page-header .stack-m .logo { margin-top: 0; }
 }
 h1 a { text-decoration: underline; text-underline-offset: 0.1em; text-decoration-thickness: 0.05em; }
@@ -320,6 +323,22 @@ a:hover > .arrow { transform: translateX(0.15em); }
   .about .row { row-gap: 0.4rem; }
 }
 
+/* ---------- Page-to-page logo morph ---------- */
+/* Going between the front page and a project page, the browser animates the "MH" from its
+   old size and place to the new one (cross-document view transitions; browsers without
+   support just load the page as before). On the front page js/filter.js hands the name to
+   whichever MH is showing (header, travelling copy or pinned bar) as you leave. */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+.site-header .logo, .page-header .logo { view-transition-name: mh; }
+/* the project-page logo is white and blended (see .page-header); a snapshot can't blend,
+   so while it is captured it takes the plain logo colour, which looks the same at the top */
+.vt-capture .page-header .logo { color: var(--strong); }
+:root:active-view-transition .page-header .logo { color: var(--strong); }
+::view-transition-group(mh) { animation-duration: 0.5s; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+::view-transition-old(mh), ::view-transition-new(mh) { height: 100%; animation-duration: 0.5s; }
+
 /* ---------- Project & archive pages ---------- */
 .page-header {
   position: fixed;
@@ -485,7 +504,7 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 @media (max-width: 768px) {
   .site-header .lang-toggle { top: calc(2rem * var(--p) + 0.1485 * 9.4rem); }
   .page-header .lang-toggle { top: calc(2.2rem * var(--p) + 0.1745 * 3.5rem); }
-  .page-header .stack-m ~ .lang-toggle { top: calc(2.2rem * var(--p) + 0.1485 * 9.4rem); }
+  .page-header .stack-m ~ .lang-toggle { top: calc(2.2rem * var(--p) + 0.1485 * 3.5rem); }
 }
 /* keep the titles clear of the switch */
 @media (min-width: 769px) {
