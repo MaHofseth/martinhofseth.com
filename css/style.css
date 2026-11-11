@@ -124,15 +124,9 @@ h1 {
 /* line the top of "MH" up with the top of the capitals in the text next to it
    (Archivo: cap top sits 0.1485em into a 1.0 line, 0.1745em into a 1.05 line) */
 @media (min-width: 769px) { .site-header .logo { margin-top: calc(0.1745 * 4.5rem - 0.1485 * 9.4rem); } }
-/* project pages: the logo shrinks to the size of the page title next to it */
-.page-header .logo { font-size: 3.8rem; margin-top: calc(0.1745 * 3.8rem - 0.1485 * 3.8rem); }
-@media (max-width: 768px) {
-  .page-header .logo { font-size: 3.5rem; margin-top: calc(0.1745 * 3.5rem - 0.1485 * 3.5rem); }
-  .page-header .stack-m .logo { margin-top: 0; }
-}
 h1 a { text-decoration: underline; text-underline-offset: 0.1em; text-decoration-thickness: 0.05em; }
 h1 a:hover { text-decoration-thickness: 0.09em; }
-h2, .page-header h1 {
+h2 {
   margin: 0;
   font-family: var(--font-head);
   font-weight: 500;
@@ -174,7 +168,7 @@ h2 .year { color: inherit; }
   padding: 0.5rem 0.95rem;
 }
 @media (max-width: 768px) {
-  h2, .page-header h1 { font-size: 3.5rem; }
+  h2 { font-size: 3.5rem; }
   .heading { font-size: 3rem; }
   .desc { font-size: 2.1rem; max-width: none; }
   .tag { font-size: 1.6rem; }
@@ -331,41 +325,46 @@ a:hover > .arrow { transform: translateX(0.15em); }
 @media (prefers-reduced-motion: no-preference) {
   @view-transition { navigation: auto; }
 }
+/* Only the MH gets a name. Anything named becomes its own layer above the page, so a named
+   project bar would hang over the front page while fading out; unnamed, it simply
+   cross-fades with the rest of the page (and between two project pages it looks still). */
 .site-header .logo, .page-header .logo { view-transition-name: mh; }
-/* the project-page logo is white and blended (see .page-header); a snapshot can't blend,
-   so while it is captured it takes the plain logo colour, which looks the same at the top */
-.vt-capture .page-header .logo { color: var(--strong); }
-:root:active-view-transition .page-header .logo { color: var(--strong); }
 ::view-transition-group(mh) { animation-duration: 0.5s; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
 ::view-transition-old(mh), ::view-transition-new(mh) { height: 100%; animation-duration: 0.5s; }
 
 /* ---------- Project & archive pages ---------- */
+/* The header is the front page's pinned bar (see "Tag filter"): frosted glass, MH on the
+   left, the project name on the right at the same size, and a thin line under it.
+   --bar-line is the bar's line height; the padding matches .filters. */
 .page-header {
+  --bar-line: calc(2.6rem + 2px);
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 10;
-  padding: calc(2.2rem * var(--p)) calc(2rem * var(--p)) 0 calc(1.4rem * var(--p));
-  color: #fff;
-  mix-blend-mode: difference;
-  pointer-events: none;
+  padding: 1.4rem calc(2rem * var(--p));
+  background: var(--glass);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
 }
-.page-header a { pointer-events: auto; }
-.page-header .logo, .page-header h1 { color: #fff; }
-.page-header .cols { --gap: 1rem; grid-template-columns: 1fr 1fr; align-items: start; }
-.page-header .right { text-align: right; }
+.page-header .cols, .page-header .cols.stack-m {
+  display: flex; justify-content: space-between; align-items: baseline; column-gap: 2rem;
+}
+.page-header .logo, .page-header h1 {
+  font-size: 2.4rem; line-height: var(--bar-line); white-space: nowrap; color: var(--strong);
+}
+.page-header h1 { font-weight: 500; letter-spacing: -0.02em; text-align: right; }
 @media (max-width: 768px) {
-  .page-header .cols.stack-m { grid-template-columns: minmax(0, 1fr); row-gap: 0.6rem; }
-  .page-header .cols.stack-m .right { text-align: left; }
+  .page-header { --bar-line: 44px; padding-top: 1.2rem; padding-bottom: 1.2rem; }
+  .page-header .logo, .page-header h1 { font-size: 3rem; }
 }
 
-/* content always starts below the fixed header */
+/* content always starts below the fixed bar, with at least 4rem of air */
 .content {
-  padding: max(var(--top, 10rem), calc(9.4rem + 2.2rem * var(--p) + 4rem)) calc(2rem * var(--p)) calc(2rem * var(--p));
+  padding: max(var(--top, 10rem), calc(var(--bar-h, 5.4rem + 2px) + 4rem)) calc(2rem * var(--p)) calc(2rem * var(--p));
 }
+@media (max-width: 768px) { .content { --bar-h: calc(44px + 2.4rem + 1px); } }
 .content.flush-right { padding-right: 0; }
-@media (max-width: 768px) {
-  body:has(.stack-m) .content { padding-top: max(var(--top, 10rem), 19rem); }
-}
 .g1 { margin-top: 1rem; } .g2 { margin-top: 2rem; } .g6 { margin-top: 6rem; }
 
 /* tall photos: as big as the column allows, but never taller than the screen */
@@ -495,26 +494,20 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 :root[lang="nb"] .lang-toggle span:last-child { color: var(--knob-text); }
 .lang-toggle:hover span { text-decoration: underline; text-underline-offset: 0.15em; }
 .reduce-motion .lang-toggle::before, .reduce-motion .lang-toggle span { transition: none; }
-/* project pages: the header is white with mix-blend-mode: difference, so it reads on any photo */
-.page-header .lang-toggle { color: #fff; --knob-text: #000; }
 /* the top of the switch lines up with the top of the capitals in "MH" and the title
    (header padding + where the cap top sits in the title's line, see "Type scale") */
 .site-header .lang-toggle { top: calc(2rem * var(--p) + 0.1745 * 4.5rem); }
-.page-header .lang-toggle { top: calc(2.2rem * var(--p) + 0.1745 * 3.8rem); }
 @media (max-width: 768px) {
   .site-header .lang-toggle { top: calc(2rem * var(--p) + 0.1485 * 9.4rem); }
-  .page-header .lang-toggle { top: calc(2.2rem * var(--p) + 0.1745 * 3.5rem); }
-  .page-header .stack-m ~ .lang-toggle { top: calc(2.2rem * var(--p) + 0.1485 * 3.5rem); }
 }
-/* keep the titles clear of the switch */
+/* keep the front-page title clear of the switch (project pages have no switch; the
+   language chosen on the front page carries over) */
 @media (min-width: 769px) {
   .site-header h1 { padding-right: 10rem; }
-  .page-header .right h1 { margin-right: 10rem; }
 }
 @media (max-width: 768px) {
   .lang-toggle { font-size: 1.7rem; }
   .lang-toggle span { padding: 0.9rem 1.3rem; min-width: 44px; }
-  .page-header .cols:not(.stack-m) .right h1 { margin-right: 13rem; }
 }
 
 /* ---------- Tag filter ---------- */

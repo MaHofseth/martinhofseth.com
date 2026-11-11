@@ -100,10 +100,3 @@ document.querySelectorAll('.click-embed').forEach((box) => {
     f.focus();
   });
 });
-
-// page-to-page logo morph (css/style.css, "Page-to-page logo morph"): as you leave a project
-// page, show its logo in the plain colour so the snapshot the browser takes matches the next page
-window.addEventListener('pageswap', (e) => {
-  if (e.viewTransition) document.documentElement.classList.add('vt-capture');
-});
-window.addEventListener('pageshow', () => document.documentElement.classList.remove('vt-capture'));
