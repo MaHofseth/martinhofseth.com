@@ -55,7 +55,8 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     applyAttributes();
-    const header = document.querySelector('.site-header, .page-header');
+    // the switch lives on the front page only; other pages just follow the saved language
+    const header = document.querySelector('.site-header');
     if (!header) return;
     button = document.createElement('button');
     button.type = 'button';
