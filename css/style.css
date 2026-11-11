@@ -349,6 +349,8 @@ a:hover > .arrow { transform: translateX(0.15em); }
 }
 .page-header .cols, .page-header .cols.stack-m {
   display: flex; justify-content: space-between; align-items: baseline; column-gap: 2rem;
+  /* lining up a smaller title's baseline nudges it down; the row keeps the bar's height */
+  height: var(--bar-line);
 }
 .page-header .logo, .page-header h1 {
   font-size: 2.4rem; line-height: var(--bar-line); white-space: nowrap; color: var(--strong);
@@ -356,7 +358,10 @@ a:hover > .arrow { transform: translateX(0.15em); }
 .page-header h1 { font-weight: 500; letter-spacing: -0.02em; text-align: right; }
 @media (max-width: 768px) {
   .page-header { --bar-line: 44px; padding-top: 1.2rem; padding-bottom: 1.2rem; }
-  .page-header .logo, .page-header h1 { font-size: 3rem; }
+  /* on a phone the bold MH reads small next to the title, so it gets a size of its own
+     (the same as in the front page's pinned bar, so the morph lands in place) */
+  .page-header h1 { font-size: 3rem; }
+  .page-header .logo { font-size: 3.6rem; }
 }
 
 /* content always starts below the fixed bar, with at least 4rem of air */
@@ -571,7 +576,7 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 /* reduced motion: the logo stays put; a plain small MH shows in the bar once pinned */
 .reduce-motion .filters.is-stuck .bar-slot { visibility: visible; width: auto; margin-right: 0; }
 @media (max-width: 768px) {
-  .bar-slot { font-size: 3rem; height: 44px; line-height: 44px; margin-right: calc((var(--k, 0) - 1) * 1.2rem); }
+  .bar-slot { font-size: 3.6rem; height: 44px; line-height: 44px; margin-right: calc((var(--k, 0) - 1) * 1.2rem); }
 }
 
 
