@@ -310,6 +310,7 @@ a:hover > .arrow { transform: translateX(0.15em); }
 .about .colophon p { max-width: 60ch; }
 .about .colophon.privacy { margin-top: calc(3rem * var(--p)); }
 .about .privacy .s8 p + p { margin-top: 0.7em; }
+.about .intro .born { color: rgba(255, 255, 255, 0.55); }
 .about .privacy strong { font-weight: 600; color: rgba(255, 255, 255, 0.8); }
 .about .privacy a { text-decoration: underline; text-decoration-color: rgba(255, 255, 255, 0.35); text-underline-offset: 0.15em; }
 @media (max-width: 768px) { .about .colophon { font-size: 1.6rem; row-gap: 0.8rem; } }
