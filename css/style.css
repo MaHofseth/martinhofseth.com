@@ -239,11 +239,8 @@ h2 .year { color: inherit; }
 .embed-load:hover img { opacity: 0.88; }
 .embed-load:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 .embed-load .play { font-size: 1.8rem; }
-.embed-note { margin-top: 1.2rem; font-size: 1.4rem; color: var(--muted); max-width: 70ch; }
-.embed-note a { text-decoration: underline; text-underline-offset: 0.15em; }
-.embed-note + .embed-link { margin-top: 0.4rem; }
 @media (max-width: 768px) {
-  .embed-load .play, .embed-note { font-size: 1.6rem; }
+  .embed-load .play { font-size: 1.6rem; }
 }
 @media (max-width: 768px) {
   .embed.prototype { height: calc(100svh - max(var(--top, 10rem), 19rem) - 6rem); min-height: 480px; }
