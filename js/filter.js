@@ -57,7 +57,7 @@
     if (nb()) status.textContent = selected.size ? `${shown} av ${n} prosjekter` : `${n} prosjekter`;
     else status.textContent = selected.size ? `${shown} of ${n} projects` : `${n} projects`;
     if (countEl) countEl.textContent = selected.size || '';
-    const word = nb() ? 'Filtrer' : 'Filter';
+    const word = 'Filter';
     if (toggleBtn) toggleBtn.setAttribute('aria-label', selected.size ? `${word}, ${selected.size} ${nb() ? 'valgt' : 'selected'}` : word);
 
     const url = new URL(location.href);
