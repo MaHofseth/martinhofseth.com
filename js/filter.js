@@ -93,6 +93,10 @@
     bar.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && bar.classList.contains('is-open')) { setOpen(false); toggleBtn.focus(); }
     });
+    // a click or tap anywhere outside the bar closes the open list
+    document.addEventListener('pointerdown', (e) => {
+      if (bar.classList.contains('is-open') && !bar.contains(e.target)) setOpen(false);
+    });
   }
 
   // tags inside projects work as filter shortcuts too
