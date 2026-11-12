@@ -503,7 +503,7 @@ h1, h2, .heading, .page-nav a { text-wrap: balance; }
 .filter:hover { background: var(--hover); }
 .filter[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 /* its min-width shrinks as the MH slot opens (--k), so the bar does not jump */
-.filter-status { margin: 0; flex: none; min-width: max(0px, calc(7.2em - var(--k, 0) * (var(--slot-w, 0px) + 1.6rem))); font-size: 1.4rem; line-height: calc(2.6rem + 2px); color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.filter-status { margin: 0; flex: none; min-width: max(0px, calc(7.2em - var(--k, 0) * (var(--slot-w, 0px) + 1.6rem))); font-size: 1.4rem; line-height: calc(2.6rem + 2px); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
 
 /* MH in the pinned bar. The big header logo itself travels here: js/filter.js moves and
    shrinks it with the scroll so it lands in this slot exactly as the bar pins.

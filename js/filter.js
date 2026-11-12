@@ -175,11 +175,12 @@
   // drag it out of place; its position depends only on how far you have scrolled (k).
   // Before it moves, the real logo shows; once it lands, the bar's own MH (which scrolls in
   // step with the bar) takes over.
-  const flyer = logo.cloneNode(true);
-  flyer.classList.add('logo-flyer');
+  // a <span>, not a clone of the <a>: it is a decorative, href-less copy, and an anchor
+  // without an href is reported as an uncrawlable link
+  const flyer = document.createElement('span');
+  flyer.className = `${logo.className} logo-flyer`;
+  flyer.innerHTML = logo.innerHTML;
   flyer.setAttribute('aria-hidden', 'true');
-  flyer.setAttribute('tabindex', '-1');
-  flyer.removeAttribute('href');
   document.body.appendChild(flyer);
 
   // the bar's tallest unpinned height over the whole glide (the arriving MH can push a tag
