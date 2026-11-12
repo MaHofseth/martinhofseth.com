@@ -1,5 +1,7 @@
 // English / Norwegian switch.
-// Loaded in <head> (not deferred) so the saved language is set before the page is drawn.
+// Loaded at the end of <body>, before main.js and filter.js (they use window.siteLang).
+// A one-line inline script in each page's <head> sets the saved language before the page
+// is drawn, so this file no longer blocks the first paint.
 //
 // How to write bilingual content:
 //   - Text: put both versions side by side, each marked with its language:

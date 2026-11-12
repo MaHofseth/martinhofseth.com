@@ -41,7 +41,9 @@ if (['localhost', '127.0.0.1', '[::1]'].includes(location.hostname)) {
 
   function show(i) {
     index = (i + images.length) % images.length;
-    big.src = images[index].currentSrc || images[index].src;
+    // .src, not .currentSrc: with a srcset the thumbnail may be a small copy, the
+    // viewer should show the full-size original
+    big.src = images[index].src;
     big.alt = images[index].alt;
   }
   function open(i) {
